@@ -2,41 +2,46 @@
 
 set -e   # exit on any error
 
-while getopts "t:R:r::" option
+usage="$(basename "$0") [-h] [-t TAG] [-r REPOSITORIES]
+Tag the current commit of multiple repositories:
+    -h  show this help text
+    -t  tag name
+    -r  repository absolute path (can be repeated for multiple repos)"
+
+while getopts ":ht:r::" option
 do
 	case "${option}" in
+	  h) echo "$usage"; exit;;
 	  t) TAG=${OPTARG};;   # make it mandatory
-		R) ROOT=${OPTARG};;
-		r) REPOSITORY=${OPTARG};;
+		r) REPOSITORIES+=("$OPTARG");;
+    :) printf "missing argument for -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
+    \?) printf "illegal option: -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
 	esac
 done
-
-TAG=${TAG:-master}
-ROOT=${ROOT:-~}
-REPOSITORY=${REPOSITORY:-"test_repo"}
-
-REPOSITORIES=("$ROOT/$REPOSITORY")
 
 for REPO in "${REPOSITORIES[@]}"
 do
   if ! [ -d "$REPO" ]
   then
-    echo "Skipping $REPO: directory not found"
-    continue
-  else
-    echo "Updating $REPO at $(date)"
-    if [ -d "$REPO/.git" ]
-    then
-      cd "$REPO"
-      git status
-      echo "Pulling"
-      git pull
-      echo "Checking out Tag $TAG"
-      git checkout "$TAG"
-    else
-      echo "Skipping because it doesn't look like it has a .git folder."
-    fi
-    echo "Done at $(date)"
-    echo
+    echo "$REPO not found: aborting before checking out any repo"
+    exit 1
   fi
+done
+
+for REPO in "${REPOSITORIES[@]}"
+do
+  echo "Updating $REPO at $(date)"
+  if [ -d "$REPO/.git" ]
+  then
+    cd "$REPO"
+    git status
+    echo "Pulling"
+    git pull
+    echo "Checking out Tag $TAG"
+    git checkout "$TAG"
+  else
+    echo "Skipping because it doesn't look like it has a .git folder."
+  fi
+  echo "Done at $(date)"
+  echo
 done

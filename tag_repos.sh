@@ -25,19 +25,9 @@ if [ ! "$TAG" ] || [ ! "$REPOSITORIES" ]; then
   echo "$usage" >&2; exit 1
 fi
 
-function check_tag {
-  if GIT_DIR=$1 git tag --list | grep -E -q "^$2$"
-  then
-      return 1
-  else
-      return 0
-  fi
-}
-
 for REPO in "${REPOSITORIES[@]}"
 do
   echo "$(check_tag "$REPO/.git" "$TAG")"
-  #if check_tag $REPO/.git $TAG
   if [[ "$(check_tag $REPO/.git $TAG)" != "0" ]]
   then
     echo "ERROR: Repository $REPO already has Tag $TAG -> No repository was tagged"
@@ -70,3 +60,12 @@ do
     echo
   fi
 done
+
+function check_tag {
+  if GIT_DIR=$1 git tag --list | grep -E -q "^$2$"
+  then
+      return 1
+  else
+      return 0
+  fi
+}
