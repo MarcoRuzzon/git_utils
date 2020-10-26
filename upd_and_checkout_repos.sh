@@ -2,7 +2,7 @@
 
 set -e   # exit on any error
 
-while getopts "t:R:r" option
+while getopts "t:R:r::" option
 do
 	case "${option}" in
 	  t) TAG=${OPTARG};;   # make it mandatory
