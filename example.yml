@@ -1,0 +1,11 @@
+projects:
+  - root: /home/tree
+    name: /home/tree/fake_repo
+    branch: (HEAD detached at v0.5)
+    commit: 7df3f22
+
+  - root: /home/tree
+    name: /home/tree/test_repo
+    branch: master
+    commit: d9768ee
+
