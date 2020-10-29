@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 usage="$(basename "$0") [-h] [-f FILENAME] [-d DIRECTORIES]
-Save a yaml file to FILENAME with a summary of all repose in list of DIRECTORIES :
+Save a yaml file to FILENAME with a summary of all git repositories in DIRECTORIES:
     -h  show this help text
+    -f  target yaml file name
     -d  repositories basedir (can be repeated for multiple basedirs)
-        default is current directory
-    -f  target yaml file name"
+        default is current directory"
+
 
 while getopts ":hf:d::" option
 do
@@ -17,6 +18,10 @@ do
     \?) printf "illegal option: -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
 	esac
 done
+
+if [ ! "$FILENAME" ]; then
+   echo "$usage" >&2; exit 1
+fi
 
 if [ ! "$DIRS" ]; then
   DIRS=("$(pwd)")
@@ -57,7 +62,7 @@ for dir in "${DIRS[@]}"; do
   for f in "$dir"/*; do
     if [[ -d "$f/.git" ]]; then
       echo "  - root: $(readlink -f "$dir")
-    name: $f
+    name: $(basename "$f")
     branch: $(parse_git_branch "$f")
     commit: $(parse_git_hash "$f")" >> "$(readlink -f "$FILENAME")"
   echo >> "$(readlink -f "$FILENAME")"
