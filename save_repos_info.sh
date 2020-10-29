@@ -56,7 +56,7 @@ if [[ -f "$(readlink -f "$FILENAME")" ]]; then
   rm "$(readlink -f "$FILENAME")"
 fi
 
-echo "projects:" >> "$(readlink -f "$FILENAME")"
+echo "repos:" >> "$(readlink -f "$FILENAME")"
 
 for dir in "${DIRS[@]}"; do
   for f in "$dir"/*; do

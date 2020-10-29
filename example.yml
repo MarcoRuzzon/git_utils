@@ -1,4 +1,4 @@
-projects:
+repos:
   - root: /home/tree
     name: fake_repo
     branch: (HEAD detached at v0.5)

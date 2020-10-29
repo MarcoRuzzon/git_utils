@@ -16,5 +16,5 @@ with open(args.filename) as file:
 
 template = "set({}_TAG {})\n"
 with open('ProjectsTags.cmake', "w") as f:
-    for item in info['projects']:
+    for item in info['repos']:
         f.write(template.format(item['name'], item['commit']))
