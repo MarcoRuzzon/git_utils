@@ -51,8 +51,8 @@ function parse_git_hash() {
 }
 
 if [[ -f "$(readlink -f "$FILENAME")" ]]; then
-  echo "WARNING: $FILENAME already exist, saving a backup before overwriting it"
-  cp "$(readlink -f "$FILENAME")" "$(readlink -f "$FILENAME")".backup
+#  echo "WARNING: $FILENAME already exist, saving a backup before overwriting it"
+#  cp "$(readlink -f "$FILENAME")" "$(readlink -f "$FILENAME")".backup
   rm "$(readlink -f "$FILENAME")"
 fi
 
