@@ -1,5 +1,5 @@
 usage="$(basename "$0") [-h] [-s SUPERBUILD_DIR][-t TARGET_DIR]
-Create a project CMakeLists.txt and a ProjectTags.cmake representing the current state of the superbuild:
+Create a project CMakeLists.txt and a ProjectsTags.cmake representing the current state of the superbuild:
     -h  show this help text
     -s  superbuild directory
     -d  target directory where to save files (default current directory) (not working)"
