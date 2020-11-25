@@ -1,5 +1,5 @@
 usage="$(basename "$0") [-h] [-s SUPERBUILD_DIR][-t TARGET_DIR]
-Save a yaml file to FILENAME with a summary of all git repositories in DIRECTORIES:
+Create a project CMakeLists.txt and a ProjectTags.cmake representing the current state of the superbuild:
     -h  show this help text
     -s  superbuild directory
     -d  target directory where to save files (default current directory) (not working)"

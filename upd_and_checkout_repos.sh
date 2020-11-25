@@ -3,7 +3,7 @@
 set -e   # exit on any error
 
 usage="$(basename "$0") [-h] [-t TAG] [-r REPOSITORIES]
-Tag the current commit of multiple repositories:
+Update and checkout REPOSITORIES to TAG:
     -h  show this help text
     -t  tag name
     -r  repository absolute path (can be repeated for multiple repos)"
