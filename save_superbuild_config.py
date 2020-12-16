@@ -4,10 +4,11 @@ import argparse
 import yaml
 import re
 
-parser = argparse.ArgumentParser()
-parser.add_argument('filename', help="the CMakeCache.txt of superbuild")
-parser.add_argument('--yaml_filename', help="the CMakeCache.txt of superbuild", default="superbuild_config_info.yml")
-parser.add_argument('--all', help="the CMakeCache.txt of superbuild", type=bool, default=True)
+parser = argparse.ArgumentParser(
+    description="Create a yaml file which reports the activation status of superbuild repos by parsing its CMakeCache.txt (build bir)")
+parser.add_argument('filename', help="the CMakeCache.txt of superbuild (build dir)")
+parser.add_argument('--yaml_filename', help="the yaml file to be created", default="superbuild_config_info.yml")
+parser.add_argument('--all', help="if true (default), include all repos, else only the active ones", type=bool, default=True)
 args = parser.parse_args()
 
 if args.all:

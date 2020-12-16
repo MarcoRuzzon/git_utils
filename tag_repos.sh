@@ -27,7 +27,7 @@ fi
 
 for REPO in "${REPOSITORIES[@]}"
 do
-  echo "$(check_tag "$REPO/.git" "$TAG")"
+  check_tag "$REPO/.git" "$TAG"
   if [[ "$(check_tag $REPO/.git $TAG)" != "0" ]]
   then
     echo "ERROR: Repository $REPO already has Tag $TAG -> No repository was tagged"

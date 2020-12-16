@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 usage="$(basename "$0") [-h] [-f FILENAME] [-d DIRECTORIES]
-Save a yaml file to FILENAME with a summary of all git repositories in DIRECTORIES:
+Save a yaml file to FILENAME with a summary of all git repositories in DIRECTORIES (default current directory):
     -h  show this help text
     -f  target yaml file name
     -d  repositories basedir (can be repeated for multiple basedirs)
