@@ -50,6 +50,11 @@ function parse_git_hash() {
   git --git-dir $1/.git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/"
 }
 
+# get remote  
+function get_remote_url() {
+  git --git-dir $1/.git config --get remote.$2.url
+}
+
 if [[ -f "$(readlink -f "$FILENAME")" ]]; then
 #  echo "WARNING: $FILENAME already exist, saving a backup before overwriting it"
 #  cp "$(readlink -f "$FILENAME")" "$(readlink -f "$FILENAME")".backup
@@ -64,7 +69,8 @@ for dir in "${DIRS[@]}"; do
       echo "  - root: $(readlink -f "$dir")
     name: $(basename "$f")
     branch: $(parse_git_branch "$f")
-    commit: $(parse_git_hash "$f")" >> "$(readlink -f "$FILENAME")"
+    commit: $(parse_git_hash "$f") 
+    origin: $(get_remote_url "$f" "origin")">> "$(readlink -f "$FILENAME")"
   echo >> "$(readlink -f "$FILENAME")"
     fi
   done
