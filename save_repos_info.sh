@@ -1,10 +1,30 @@
 #!/usr/bin/env bash
 
-usage="$(basename "$0") FILENAME [-h] [-d DIRECTORIES]
-Save a yaml file to FILENAME with a summary of all git repositories in DIRECTORIES (default current directory):
+usage="usage: $(basename "$0") [-h] FILENAME [-d DIRECTORY]
+
+Save a yaml file to FILENAME with a summary of all git repositories
+in DIRECTORY (default current directory):
     -h  show this help text
-    -d  repositories basedir (can be repeated for multiple basedirs)
-        default is current directory"
+    -d  repositories basedir (can be repeated for multiple directories)
+        default is current directory
+
+example:
+
+repos:
+  - root: /home/tree
+    name: fake_repo
+    branch: (HEAD detached at v0.5)
+    commit: 7df3f22
+    origin: git@github.com:user/fake_repo.git
+    modified_or_untracked: 0
+
+
+  - root: /home/tree
+    name: test_repo
+    branch: master
+    commit: d9768ee
+    origin: git@github.com:user/test_repo.git
+    modified_or_untracked: 3"
 
 
 while getopts ":hd::" option
