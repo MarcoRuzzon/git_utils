@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
 
-usage="$(basename "$0") [-h] [-f FILENAME] [-d DIRECTORIES]
+usage="$(basename "$0") FILENAME [-h] [-d DIRECTORIES]
 Save a yaml file to FILENAME with a summary of all git repositories in DIRECTORIES (default current directory):
     -h  show this help text
-    -f  target yaml file name
     -d  repositories basedir (can be repeated for multiple basedirs)
         default is current directory"
 
 
-while getopts ":hf:d::" option
+while getopts ":hd::" option
 do
 	case "${option}" in
 	  h) echo "$usage"; exit;;
 		d) DIRS+=("$OPTARG");;
-    f) FILENAME=${OPTARG};;
     :) printf "missing argument for -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
     \?) printf "illegal option: -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
 	esac
 done
 
+FILENAME="$1" 
 if [ ! "$FILENAME" ]; then
    echo "$usage" >&2; exit 1
 fi
@@ -55,6 +54,10 @@ function get_remote_url() {
   git --git-dir $1/.git config --get remote.$2.url
 }
 
+function get_modified_or_untracked() {
+  git --git-dir $1/.git --work-tree=$1 status --porcelain=v1 2>/dev/null | wc -l
+}
+
 if [[ -f "$(readlink -f "$FILENAME")" ]]; then
 #  echo "WARNING: $FILENAME already exist, saving a backup before overwriting it"
 #  cp "$(readlink -f "$FILENAME")" "$(readlink -f "$FILENAME")".backup
@@ -70,7 +73,8 @@ for dir in "${DIRS[@]}"; do
     name: $(basename "$f")
     branch: $(parse_git_branch "$f")
     commit: $(parse_git_hash "$f") 
-    origin: $(get_remote_url "$f" "origin")">> "$(readlink -f "$FILENAME")"
+    origin: $(get_remote_url "$f" "origin")
+    modified_or_untracked: $(get_modified_or_untracked "$f")" >> "$(readlink -f "$FILENAME")"
   echo >> "$(readlink -f "$FILENAME")"
     fi
   done

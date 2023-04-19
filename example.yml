@@ -3,9 +3,13 @@ repos:
     name: fake_repo
     branch: (HEAD detached at v0.5)
     commit: 7df3f22
+    origin: git@github.com:user/fake_repo.git
+    modified_or_untracked: 0
+
 
   - root: /home/tree
     name: test_repo
     branch: master
     commit: d9768ee
-
+    origin: git@github.com:user/test_repo.git
+    modified_or_untracked: 3
