@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 
-usage="usage: $(basename "$0") [-h] FILENAME [-d DIRECTORY]
+DEFAULT_FILENAME=repos_info.yaml
 
-Save a yaml file to FILENAME with a summary of all git repositories
-in DIRECTORY (default current directory):
+usage="usage: $(basename "$0") [-h] [-n FILENAME] [-d DIRECTORY]
+
+Save a yaml file to FILENAME (default $DEFAULT_FILENAME) with a 
+summary of all git repositories in DIRECTORY (default current directory):
     -h  show this help text
-    -d  repositories basedir (can be repeated for multiple directories)
-        default is current directory
+    -n  filename with repos info (can be a relative/absolute path)
+    -d  repositories parent dir (can be repeated for multiple directories)
 
 example:
 
@@ -27,22 +29,24 @@ repos:
     modified_or_untracked: 3"
 
 
-while getopts ":hd::" option
+while getopts ":hd::n:" option
 do
 	case "${option}" in
 	  h) echo "$usage"; exit;;
+    n) FILENAME=${OPTARG};;
 		d) DIRS+=("$OPTARG");;
     :) printf "missing argument for -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
     \?) printf "illegal option: -%s\n" "$OPTARG" >&2; echo "$usage" >&2; exit 1;;
 	esac
 done
 
-FILENAME="$1" 
 if [ ! "$FILENAME" ]; then
-   echo "$usage" >&2; exit 1
+  echo "no FILENAME specified, using $DEFAULT_FILENAME"
+  FILENAME=$DEFAULT_FILENAME
 fi
 
 if [ ! "$DIRS" ]; then
+  echo "no DIRECTORY specified, using current dir"
   DIRS=("$(pwd)")
 fi
 
